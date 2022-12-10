@@ -64,7 +64,7 @@ public class SerializationBinder : ISerializationBinder
     protected Type? ResolveGenericType(string typeName, Assembly assembly)
     {
         var openBracketIndex = typeName.IndexOf('[');
-        string genericTypeDefName = typeName.Substring(0, openBracketIndex);
+        string genericTypeDefName = typeName[..openBracketIndex];
         if (openBracketIndex < 0)
             return null;
 

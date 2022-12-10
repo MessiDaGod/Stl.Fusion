@@ -148,7 +148,7 @@ public class DbKeyValueStore<TDbContext, TDbKeyValue> : DbServiceBase<TDbContext
         var delimiter = KeyValueStoreExt.Delimiter;
         var delimiterIndex = key.IndexOf(delimiter, 0);
         for (; delimiterIndex >= 0; delimiterIndex = key.IndexOf(delimiter, delimiterIndex + 1)) {
-            var keyPart = key.Substring(0, delimiterIndex);
+            var keyPart = key[..delimiterIndex];
             _ = PseudoGet(tenantId, keyPart);
         }
         _ = PseudoGet(tenantId, key);

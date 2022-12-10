@@ -163,7 +163,7 @@ public static partial class ChannelExt
         {
             var text = message?.ToString() ?? "<null>";
             if (maxLength.HasValue && text.Length > maxLength.GetValueOrDefault())
-                text = text.Substring(0, maxLength.GetValueOrDefault()) + "...";
+                text = text[..maxLength.GetValueOrDefault()] + "...";
             logger.Log(logLevel, $"{channelName} {(isIncoming ? "<-" : "->")} {text}");
             return message;
         }

@@ -47,11 +47,11 @@ public class WebSocketChannelProvider : IChannelProvider, IHasServices
             var settings = channelProvider.Settings;
             var url = settings.BaseUri.ToString();
             if (url.StartsWith("http://", StringComparison.Ordinal))
-                url = "ws://" + url.Substring(7);
+                url = "ws://" + url[7..];
             else if (url.StartsWith("https://", StringComparison.Ordinal))
-                url = "wss://" + url.Substring(8);
+                url = "wss://" + url[8..];
             if (url.EndsWith("/", StringComparison.Ordinal))
-                url = url.Substring(0, url.Length - 1);
+                url = url[..^1];
             url += settings.RequestPath;
             var uriBuilder = new UriBuilder(url);
             var queryTail =

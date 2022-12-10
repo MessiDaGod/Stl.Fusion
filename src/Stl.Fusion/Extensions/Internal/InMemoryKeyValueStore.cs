@@ -93,7 +93,7 @@ public class InMemoryKeyValueStore : WorkerBase, IKeyValueStore
             .Where(k => k.TenantId == tenantId && k.Key.Value.StartsWith(prefix, StringComparison.Ordinal));
         query = query.OrderByAndTakePage(k => k.Key, pageRef, sortDirection);
         var result = query
-            .Select(k => k.Key.Value.Substring(prefix.Length))
+            .Select(k => k.Key.Value[prefix.Length..])
             .ToArray();
         return Task.FromResult(result);
     }
@@ -108,7 +108,7 @@ public class InMemoryKeyValueStore : WorkerBase, IKeyValueStore
         var delimiter = KeyValueStoreExt.Delimiter;
         var delimiterIndex = key.IndexOf(delimiter, 0);
         for (; delimiterIndex >= 0; delimiterIndex = key.IndexOf(delimiter, delimiterIndex + 1)) {
-            var keyPart = key.Substring(0, delimiterIndex);
+            var keyPart = key[..delimiterIndex];
             _ = PseudoGet(tenantId, keyPart);
         }
         _ = PseudoGet(tenantId, key);

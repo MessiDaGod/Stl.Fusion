@@ -167,11 +167,11 @@ public class WebSocketChannel : Channel<string>, IAsyncDisposable
             string? TryDecodeMessage()
             {
                 var freeChars = mChars.Span;
-                var readBytes = mFreeBytes.Span.Slice(0, r.Count);
+                var readBytes = mFreeBytes.Span[..r.Count];
                 decoder.Convert(readBytes, freeChars, r.EndOfMessage, out var usedByteCount, out var usedCharCount, out var completed);
                 Debug.Assert(completed);
-                var readChars = freeChars.Slice(0, usedCharCount);
-                var undecoded = readBytes.Slice(usedByteCount);
+                var readChars = freeChars[..usedCharCount];
+                var undecoded = readBytes[usedByteCount..];
 
                 if (decodedPart != null) {
                     decodedPart.Append(readChars);
@@ -183,7 +183,7 @@ public class WebSocketChannel : Channel<string>, IAsyncDisposable
                     }
 
                     undecoded.CopyTo(mBytes.Span);
-                    mFreeBytes = mBytes.Slice(undecoded.Length);
+                    mFreeBytes = mBytes[undecoded.Length..];
                     return null;
                 }
 
@@ -193,7 +193,7 @@ public class WebSocketChannel : Channel<string>, IAsyncDisposable
                 decodedPart = new StringBuilder(readChars.Length);
                 decodedPart.Append(readChars);
                 undecoded.CopyTo(mBytes.Span);
-                mFreeBytes = mBytes.Slice(undecoded.Length);
+                mFreeBytes = mBytes[undecoded.Length..];
                 return null;
             }
 
@@ -221,7 +221,7 @@ public class WebSocketChannel : Channel<string>, IAsyncDisposable
                 var freeBytes = mBytes.Span;
                 encoder.Convert(remainingChars, freeBytes, true, out var usedCharCount, out var usedByteCount, out var completed);
                 processedCount += usedCharCount;
-                buffer = mBytes.Slice(0, usedByteCount);
+                buffer = mBytes[..usedByteCount];
                 return completed;
             }
 

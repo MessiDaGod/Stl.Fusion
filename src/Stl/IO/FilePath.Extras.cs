@@ -29,7 +29,7 @@ public readonly partial struct FilePath
             hash = LeadingUnderscoresRe.Replace(hash, "");
             hash = TrailingUnderscoresRe.Replace(hash, "");
             var prefixLength = Math.Min(result.Length, maxLength - hash.Length - 1);
-            result = $"{result.Substring(0, prefixLength)}_{hash}";
+            result = $"{result[..prefixLength]}_{hash}";
         }
 
         return result;

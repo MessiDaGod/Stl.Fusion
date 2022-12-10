@@ -56,6 +56,6 @@ public static class StringExt
 
     public static string TrimSuffix(this string source, string suffix)
         => source.EndsWith(suffix, StringComparison.Ordinal)
-            ? source.Substring(0, source.Length - suffix.Length)
+            ? source[..^suffix.Length]
             : source;
 }
