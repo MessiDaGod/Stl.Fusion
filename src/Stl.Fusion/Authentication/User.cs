@@ -2,6 +2,8 @@ using System.Globalization;
 using System.Security;
 using System.Security.Claims;
 using Stl.Versioning;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Stl.Fusion.Authentication;
 
@@ -19,6 +21,7 @@ public record User : IHasId<Symbol>, IHasVersion<long>, IRequirementTarget
 
     private Lazy<ClaimsPrincipal>? _claimsPrincipalLazy;
 
+    // [Column("Id")]
     [DataMember]
     public Symbol Id { get; init; }
     [DataMember]

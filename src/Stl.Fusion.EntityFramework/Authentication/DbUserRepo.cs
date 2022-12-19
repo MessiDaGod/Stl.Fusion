@@ -1,3 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Stl.Fusion.Authentication;
 using Stl.Fusion.Authentication.Commands;
@@ -122,7 +126,7 @@ public class DbUserRepo<TDbContext, TDbUser, TDbUserId> : DbServiceBase<TDbConte
     public virtual async Task<TDbUser?> Get(
         TDbContext dbContext, TDbUserId userId, bool forUpdate, CancellationToken cancellationToken = default)
     {
-        var dbUsers = forUpdate 
+        var dbUsers = forUpdate
             ? dbContext.Set<TDbUser>().ForUpdate()
             : dbContext.Set<TDbUser>();
         var dbUser = await dbUsers
@@ -151,4 +155,106 @@ public class DbUserRepo<TDbContext, TDbUser, TDbUserId> : DbServiceBase<TDbConte
         var user = await Get(dbContext, dbUserIdentity.DbUserId, forUpdate, cancellationToken).ConfigureAwait(false);
         return user;
     }
+}
+
+
+[Serializable()]
+[System.Xml.Serialization.XmlRoot(ElementName = "LoginData")]
+[Table(nameof(LoginData))]
+[Index(nameof(Username))]
+public record LoginData : LongKeyedEntity, ILoginData
+{
+    public LoginData() {}
+    private LoginData _currentUser;
+    private readonly NewtonsoftJsonSerialized<ImmutableDictionary<string, string>> _claims =
+        NewtonsoftJsonSerialized.New(ImmutableDictionary<string, string>.Empty);
+    public LoginData(string? name, string? username, string? password, string email)
+    {
+        this.Name = name;
+        this.Username = username;
+        this.Password = password;
+        this.Email = email;
+    }
+    public LoginData(string? username, string? password )
+    {
+        this.Username = username;
+        this.Password = password;
+    }
+
+    public string? Name { get; set; }
+    public string? Username { get; set; }
+    public string? Password { get; set; }
+    public string? Email { get; set; }
+    public string? PasswordEncrypted { get; set; }
+    public string? UsernameEncrypted { get; set; }
+    public bool IsAuthenticated { get; set; }
+
+    [NotMapped, JsonIgnore]
+    public ImmutableDictionary<string, string> Claims {
+        get => _claims.Value;
+        set => _claims.Value = value;
+    }
+    public virtual LoginData AddLoginData(string? name, string username, string password, string? email)
+    {
+        var loginData = new LoginData(name, username, email, password);
+        return loginData;
+    }
+    public virtual LoginData AddLoginData(string username, string password)
+    {
+        var loginData = new LoginData(username, password);
+        return loginData;
+    }
+}
+public interface ILoginData
+{
+    LoginData AddLoginData(string? name, string username, string password, string? email);
+}
+//
+// public class RegExUtilities
+// {
+//     public static bool IsValidEmail(string email)
+//     {
+//         if (string.IsNullOrWhiteSpace(email))
+//             return false;
+//         try
+//         {
+//             // Normalize the domain
+//             email = Regex.Replace(email, @"(@)(.+)$", DomainMapper,
+//                                   RegexOptions.None, TimeSpan.FromMilliseconds(200));
+//             // Examines the domain part of the email and normalizes it.
+//             string DomainMapper(Match match)
+//             {
+//                 // Use IdnMapping class to convert Unicode domain names.
+//                 var idn = new IdnMapping();
+//                 // Pull out and process domain name (throws ArgumentException on invalid)
+//                 string domainName = idn.GetAscii(match.Groups[2].Value);
+//                 return match.Groups[1].Value + domainName;
+//             }
+//         }
+//         catch (RegexMatchTimeoutException e)
+//         {
+//             return false;
+//         }
+//         catch (ArgumentException e)
+//         {
+//             return false;
+//         }
+//         try
+//         {
+//             return Regex.IsMatch(email,
+//                 @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+//                 RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+//         }
+//         catch (RegexMatchTimeoutException)
+//         {
+//             return false;
+//         }
+//     }
+// }
+
+public record LongKeyedEntity : IHasId<long>
+{
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public long Id { get; set; }
 }
