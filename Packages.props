@@ -129,6 +129,7 @@
     <PackageReference Update="UAParser" Version="3.1.*" />
     <PackageReference Update="Ulid" Version="1.2.*" />
     <PackageReference Update="ZString" Version="2.5.*" />
+    <PackageReference Update="NETCore.Encrypt" Version="2.1.1" />
 
     <!-- Legacy support only -->
     <PackageReference Update="IndexRange" Version="1.0.*" />
@@ -139,7 +140,7 @@
     <PackageReference Update="Microsoft.Owin" Version="4.2.2" />
     <PackageReference Update="Owin" Version="1.0.0" />
     <PackageReference Update="System.Reflection.Emit.Lightweight" Version="4.7.0" />
-    
+
     <!-- Test time only -->
     <PackageReference Update="AutoFixture.AutoMoq" Version="4.17.*" />
     <PackageReference Update="coverlet.collector" Version="3.2.0" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers" />
