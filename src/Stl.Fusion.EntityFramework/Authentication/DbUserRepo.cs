@@ -175,12 +175,6 @@ public record LoginData : LongKeyedEntity, ILoginData
         this.Password = password;
         this.Email = email;
     }
-    public LoginData(string? username, string? password )
-    {
-        this.Username = username;
-        this.Password = password;
-    }
-
     public string? Name { get; set; }
     public string? Username { get; set; }
     public string? Password { get; set; }
@@ -197,11 +191,6 @@ public record LoginData : LongKeyedEntity, ILoginData
     public virtual LoginData AddLoginData(string? name, string username, string password, string? email)
     {
         var loginData = new LoginData(name, username, email, password);
-        return loginData;
-    }
-    public virtual LoginData AddLoginData(string username, string password)
-    {
-        var loginData = new LoginData(username, password);
         return loginData;
     }
 }

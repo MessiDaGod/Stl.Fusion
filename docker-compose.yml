@@ -25,4 +25,4 @@ services:
       SA_PASSWORD: "SqlServer1" # Min. 8 chars, upper-lower-digit/symbol
       ACCEPT_EULA: "Y"
     ports:
-     - "1433:1433"
+     - "1434:1434"
