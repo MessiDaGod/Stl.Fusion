@@ -83,7 +83,9 @@ public record User : IHasId<Symbol>, IHasVersion<long>, IRequirementTarget
     public User WithClaim(string name, string value)
         => this with { Claims = Claims.SetItem(name, value) };
     public User WithIdentity(UserIdentity identity, string secret = "")
-        => this with { Identities = Identities.SetItem(identity, secret) };
+    {
+        return this with { Identities = Identities.SetItem(identity, secret) };
+    }
 
     public bool IsAuthenticated()
         => !Id.IsEmpty;
@@ -91,6 +93,9 @@ public record User : IHasId<Symbol>, IHasVersion<long>, IRequirementTarget
         => Id.IsEmpty;
     public virtual bool IsInRole(string role)
         => Claims.ContainsKey($"{ClaimTypes.Role}/{role}");
+
+    public virtual bool HasEmail(string email)
+        => Claims.ContainsKey($"{ClaimTypes.Email}/{email}");
 
     public virtual User ToClientSideUser()
     {

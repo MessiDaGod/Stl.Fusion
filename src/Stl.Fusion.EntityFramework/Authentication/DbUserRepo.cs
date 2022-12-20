@@ -165,7 +165,7 @@ public class DbUserRepo<TDbContext, TDbUser, TDbUserId> : DbServiceBase<TDbConte
 public record LoginData : LongKeyedEntity, ILoginData
 {
     public LoginData() {}
-    private LoginData _currentUser;
+
     private readonly NewtonsoftJsonSerialized<ImmutableDictionary<string, string>> _claims =
         NewtonsoftJsonSerialized.New(ImmutableDictionary<string, string>.Empty);
     public LoginData(string? name, string? username, string? password, string email)
