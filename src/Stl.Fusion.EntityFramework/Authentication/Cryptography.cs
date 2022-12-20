@@ -12,17 +12,27 @@ public class Cryptography
 {
     #region MacOS Cryptography
 
-    private async Task<string> Crypt(string plaintext)
+    private string DoEncrypt(string plaintext)
     {
-        //var aesKey = EncryptProvider.CreateAesKey();
+	    //var aesKey = EncryptProvider.CreateAesKey();
 		var key = ConvertKey(GetKey());
 		var iv = ConvertKey(GetIV());
-        return EncryptProvider.AESEncrypt(plaintext, key, iv);
+		return EncryptProvider.AESEncrypt(plaintext, key, iv);
     }
-    public async Task<string> RegisterService(string src)
+    private string DoDecrypt(string plaintext)
     {
-        var result = await Crypt(src);
-		return result;
+	    //var aesKey = EncryptProvider.CreateAesKey();
+	    var key = ConvertKey(GetKey());
+	    var iv = ConvertKey(GetIV());
+	    return EncryptProvider.AESDecrypt(plaintext, key, iv);
+    }
+    public string Encrypt(string src)
+    {
+	    return DoEncrypt(src);
+    }
+    public string Decrypt(string src)
+    {
+	    return DoDecrypt(src);
     }
     private string ConvertKey(byte[] bytes)
     {
