@@ -29,6 +29,14 @@ public record User : IHasId<Symbol>, IHasVersion<long>, IRequirementTarget
     [DataMember]
     public long Version { get; init; }
     [DataMember]
+    public string? Email { get; set; }
+    [DataMember]
+    [Column(TypeName = "varchar(MAX)")]
+    public string? PasswordEncrypted { get; set; }
+    [DataMember]
+    [Column(TypeName = "varchar(MAX)")]
+    public string? UsernameEncrypted { get; set; }
+    [DataMember]
     public ImmutableDictionary<string, string> Claims { get; init; }
     [JsonIgnore, Newtonsoft.Json.JsonIgnore]
     public ImmutableDictionary<UserIdentity, string> Identities { get; init; }

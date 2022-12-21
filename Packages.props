@@ -130,6 +130,12 @@
     <PackageReference Update="Ulid" Version="1.2.*" />
     <PackageReference Update="ZString" Version="2.5.*" />
     <PackageReference Update="NETCore.Encrypt" Version="2.1.1" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Identity" Version="7.0.1"  />
+    <PackageReference Update="Microsoft.AspNetCore.Identity" Version="7.0.1" />
+    <PackageReference Update="Microsoft.Extensions.Identity.Stores" Version="7.0.1" />
+    <PackageReference Update="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.1" />
+    <PackageReference Update="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+
 
     <!-- Legacy support only -->
     <PackageReference Update="IndexRange" Version="1.0.*" />

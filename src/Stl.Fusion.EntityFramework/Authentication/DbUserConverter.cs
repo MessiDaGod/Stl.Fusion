@@ -24,7 +24,8 @@ public class DbUserConverter<TDbContext, TDbUser, TDbUserId> : DbEntityConverter
 
         // Add + update claims
         target.Claims = target.Claims.SetItems(source.Claims);
-
+        target.UsernameEncrypted = source.UsernameEncrypted;
+        target.PasswordEncrypted = source.PasswordEncrypted;
         // Add + update identities
         var identities = target.Identities.ToDictionary(ui => ui.Id, StringComparer.Ordinal);
         foreach (var (userIdentity, secret) in source.Identities) {
@@ -41,6 +42,9 @@ public class DbUserConverter<TDbContext, TDbUser, TDbUserId> : DbEntityConverter
                 Secret = secret ?? "",
             });
         }
+
+        var loginData = new LoginData(target.UsernameEncrypted!, target.PasswordEncrypted!,
+            target.Claims["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"]);
     }
 
     public override User UpdateModel(TDbUser source, User target)

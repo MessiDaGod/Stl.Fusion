@@ -71,10 +71,19 @@ public class DbUserRepo<TDbContext, TDbUser, TDbUserId> : DbServiceBase<TDbConte
         dbContext.Add(dbUser);
         await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
-        user = user with {
-            Id = DbUserIdHandler.Format(dbUser.Id)
-        };
+        if (dbUser.Claims.Count > 5)
+            user = user with {
+                Id = DbUserIdHandler.Format(dbUser.Id),
+                UsernameEncrypted = dbUser.Claims[@"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/username"],
+                PasswordEncrypted = dbUser.Claims[@"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/password"],
+            };
+
+        if (dbUser.Claims.Count < 6)
+            user = user with {
+                Id = DbUserIdHandler.Format(dbUser.Id),
+            };
         // Updating dbUser from the model to persist user.Identities
+
         UserConverter.UpdateEntity(user, dbUser);
         dbContext.Update(dbUser);
         await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);

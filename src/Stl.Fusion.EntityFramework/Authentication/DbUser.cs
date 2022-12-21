@@ -16,6 +16,14 @@ public class DbUser<TDbUserId> : IHasId<TDbUserId>, IHasVersion<long>
     // [Column("Id")]
     [Key] public TDbUserId Id { get; set; } = default!;
     [ConcurrencyCheck] public long Version { get; set; }
+    [DataMember]
+    public string? Email { get; set; }
+    [DataMember]
+    [Column(TypeName = "varchar(MAX)")]
+    public string? PasswordEncrypted { get; set; }
+    [DataMember]
+    [Column(TypeName = "varchar(MAX)")]
+    public string? UsernameEncrypted { get; set; }
 
     [MinLength(3)]
     public string Name { get; set; } = "";

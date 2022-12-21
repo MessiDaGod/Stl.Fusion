@@ -44,7 +44,10 @@ public class ClientAuthHelper
     }
 
     public virtual ValueTask SignIn(string? schema = null)
-        => JSRuntime.InvokeVoidAsync("FusionAuth.signIn", schema ?? "");
+    {
+        return JSRuntime.InvokeVoidAsync("FusionAuth.signIn", schema ?? "");
+    }
+
     // public virtual ValueTask SignInLocal(string? schema = null)
     //     => JSRuntime.InvokeVoidAsync("FusionAuth.signIn", schema ?? "");
     public virtual ValueTask SignOut()
