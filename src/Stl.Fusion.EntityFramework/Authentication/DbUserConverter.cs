@@ -26,6 +26,7 @@ public class DbUserConverter<TDbContext, TDbUser, TDbUserId> : DbEntityConverter
         target.Claims = target.Claims.SetItems(source.Claims);
         target.UsernameEncrypted = source.UsernameEncrypted;
         target.PasswordEncrypted = source.PasswordEncrypted;
+        target.Email = source.Claims["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
         // Add + update identities
         var identities = target.Identities.ToDictionary(ui => ui.Id, StringComparer.Ordinal);
         foreach (var (userIdentity, secret) in source.Identities) {
