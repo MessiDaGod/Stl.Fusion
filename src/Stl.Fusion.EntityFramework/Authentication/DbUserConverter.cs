@@ -43,9 +43,6 @@ public class DbUserConverter<TDbContext, TDbUser, TDbUserId> : DbEntityConverter
                 Secret = secret ?? "",
             });
         }
-
-        var loginData = new LoginData(target.UsernameEncrypted!, target.PasswordEncrypted!,
-            target.Claims["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"]);
     }
 
     public override User UpdateModel(TDbUser source, User target)

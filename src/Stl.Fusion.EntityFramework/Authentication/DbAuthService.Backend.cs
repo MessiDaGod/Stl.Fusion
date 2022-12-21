@@ -60,7 +60,9 @@ public partial class DbAuthService<TDbContext, TDbSessionInfo, TDbUser, TDbUserI
         }
         else {
             user = user with {
-                Id = DbUserIdHandler.Format(dbUser.Id)
+                Id = DbUserIdHandler.Format(dbUser.Id),
+                UsernameEncrypted = dbUser.Claims["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/username"],
+                PasswordEncrypted = dbUser.Claims["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/password"],
             };
             UserConverter.UpdateEntity(user, dbUser);
             await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);

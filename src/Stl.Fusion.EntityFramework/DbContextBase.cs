@@ -1,6 +1,8 @@
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.AspNetCore.Identity;
 
 namespace Stl.Fusion.EntityFramework;
 
