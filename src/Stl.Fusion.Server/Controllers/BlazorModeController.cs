@@ -16,7 +16,8 @@ public class BlazorModeController : ControllerBase
         Expiration = TimeSpan.FromDays(365),
     };
 
-    [HttpGet("{isServerSideBlazor}")]
+    // [HttpGet("{isServerSideBlazor}")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public IActionResult Switch(bool isServerSideBlazor, string? redirectTo = null)
     {
         if (isServerSideBlazor != IsServerSideBlazor(HttpContext)) {
