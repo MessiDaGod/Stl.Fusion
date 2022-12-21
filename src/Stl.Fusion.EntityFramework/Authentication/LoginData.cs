@@ -10,11 +10,11 @@ using Stl;
 namespace Stl.Fusion.Authentication;
 public class LoginData : IdentityUser
 {
+
+    public LoginData() {}
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long Id { get; set; }
-    [DataMember]
-    public long Version { get; init; }
     [DataMember]
     public string? Email { get; set; }
     [DataMember]
