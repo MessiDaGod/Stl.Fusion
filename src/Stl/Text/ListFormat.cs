@@ -22,7 +22,7 @@ public readonly struct ListFormat
     public ListFormatter CreateFormatter(int itemIndex = 0)
         => new(this, ZString.CreateStringBuilder(), ownsOutputBuilder: true, itemIndex);
     public ListFormatter CreateFormatter(ref Utf16ValueStringBuilder output, int itemIndex = 0)
-        => new(this, output, false, itemIndex);
+        => new(this, output, ownsOutputBuilder: false, itemIndex);
 
     public ListParser CreateParser(string source, int itemIndex = 0)
         => CreateParser(source.AsSpan(), itemIndex);
