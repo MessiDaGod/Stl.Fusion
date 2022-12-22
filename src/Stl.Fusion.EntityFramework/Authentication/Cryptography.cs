@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Microsoft.VisualBasic;
 // using Microsoft.VisualBasic.CompilerServices;
@@ -26,6 +27,7 @@ public class Cryptography
 	    var iv = ConvertKey(GetIV());
 	    return EncryptProvider.AESDecrypt(plaintext, key, iv);
     }
+
     public string Encrypt(string src)
     {
 	    return DoEncrypt(src);
@@ -269,4 +271,10 @@ public class Cryptography
 	// }
 
     #endregion
+}
+
+public enum LoginEnum
+{
+	Register,
+	Login
 }
