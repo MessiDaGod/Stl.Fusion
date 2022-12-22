@@ -1,11 +1,12 @@
 using System.Globalization;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Stl.Fusion.Server.Controllers;
 
 [Route("~/fusion/blazorMode")]
-public class BlazorModeController : ControllerBase
+public partial class BlazorModeController : ControllerBase
 {
     public static bool IsServerSideBlazorDefault { get; set; } = true;
     public static CookieBuilder Cookie { get; set; } = new() {
