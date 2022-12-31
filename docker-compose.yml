@@ -22,7 +22,7 @@ services:
   sqlserver:
     image: "mcr.microsoft.com/mssql/server"
     environment:
-      SA_PASSWORD: "SqlServer1" # Min. 8 chars, upper-lower-digit/symbol
+      SA_PASSWORD: "log-onCp9"
       ACCEPT_EULA: "Y"
     ports:
-     - "1434:1434"
+     - "1433:1434"
