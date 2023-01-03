@@ -14,7 +14,7 @@ public partial class DbAuthService<TDbContext, TDbSessionInfo, TDbUser, TDbUserI
 {
     protected Options Settings { get; }
     protected IDbUserIdHandler<TDbUserId> DbUserIdHandler { get; init; }
-    protected IDbUserRepo<TDbContext, TDbUser, TDbUserId> Users { get; init; }
+    protected IDbUserRepo<TDbContext, TDbUser, TDbUserId?> Users { get; init; }
     protected IDbEntityConverter<TDbUser, User> UserConverter { get; init; }
     protected IDbSessionInfoRepo<TDbContext, TDbSessionInfo, TDbUserId> Sessions { get; init; }
     protected IDbEntityConverter<TDbSessionInfo, SessionInfo> SessionConverter { get; init; }

@@ -1,7 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Globalization;
-using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Stl.Fusion.Authentication;
 using Stl.Fusion.Authentication.Commands;
@@ -29,7 +25,7 @@ public interface IDbUserRepo<in TDbContext, TDbUser, TDbUserId>
 
     // Read methods
     Task<TDbUser?> Get(Tenant tenant, TDbUserId userId, CancellationToken cancellationToken = default);
-    Task<TDbUser?> Get(TDbContext dbContext, TDbUserId userId, bool forUpdate, CancellationToken cancellationToken = default);
+    Task<TDbUser?> Get(TDbContext dbContext, TDbUserId? userId, bool forUpdate, CancellationToken cancellationToken = default);
     Task<TDbUser?> GetByUserIdentity(
         TDbContext dbContext, UserIdentity userIdentity, bool forUpdate, CancellationToken cancellationToken = default);
 }
@@ -40,8 +36,9 @@ public class DbUserRepo<TDbContext, TDbUser, TDbUserId> : DbServiceBase<TDbConte
     where TDbUser : DbUser<TDbUserId>, new()
     where TDbUserId : notnull
 {
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     protected DbAuthService<TDbContext>.Options Options { get; init; }
-    protected IDbUserIdHandler<TDbUserId> DbUserIdHandler { get; init; }
+    protected IDbUserIdHandler<TDbUserId?> DbUserIdHandler { get; init; }
     protected IDbEntityResolver<TDbUserId, TDbUser> UserResolver { get; init; }
     protected IDbEntityConverter<TDbUser, User> UserConverter { get; init; }
 
@@ -133,7 +130,7 @@ public class DbUserRepo<TDbContext, TDbUser, TDbUserId> : DbServiceBase<TDbConte
         => await UserResolver.Get(tenant, userId, cancellationToken).ConfigureAwait(false);
 
     public virtual async Task<TDbUser?> Get(
-        TDbContext dbContext, TDbUserId userId, bool forUpdate, CancellationToken cancellationToken = default)
+        TDbContext dbContext, TDbUserId? userId, bool forUpdate, CancellationToken cancellationToken = default)
     {
         var dbUsers = forUpdate
             ? dbContext.Set<TDbUser>().ForUpdate()
