@@ -51,11 +51,22 @@ public class ClientAuthHelper
     // public virtual ValueTask SignInLocal(string? schema = null)
     //     => JSRuntime.InvokeVoidAsync("FusionAuth.signIn", schema ?? "");
     public virtual ValueTask SignOut()
-        => JSRuntime.InvokeVoidAsync("FusionAuth.signOut");
+    {
+        return JSRuntime.InvokeVoidAsync("FusionAuth.signOut");
+    }
+
     public virtual Task SignOut(Session session, bool force = false)
-        => Commander.Call(new SignOutCommand(session, force));
+    {
+        return Commander.Call(new SignOutCommand(session, force));
+    }
+
     public virtual Task SignOutEverywhere(bool force = true)
-        => Commander.Call(new SignOutCommand(Session, force) { KickAllUserSessions = true });
+    {
+        return Commander.Call(new SignOutCommand(Session, force) { KickAllUserSessions = true });
+    }
+
     public virtual Task Kick(Session session, string otherSessionHash, bool force = false)
-        => Commander.Call(new SignOutCommand(session, otherSessionHash, force));
+    {
+        return Commander.Call(new SignOutCommand(session, otherSessionHash, force));
+    }
 }
