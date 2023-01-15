@@ -68,10 +68,10 @@ public class Cryptography
         // sha.ComputeHash(SaltedBytePhrase);
         // hash = Convert.ToBase64String(sha.Hash[]);
 
-		var SaltedBytePhrase = Encoding.Unicode.GetBytes($"y{Salt.ToLower()}ard{Phrase}I");
+		var saltedBytePhrase = Encoding.Unicode.GetBytes($"y{Salt.ToLower()}ard{Phrase}I");
 		byte[] hash;
 		using SHA384 sha = SHA384.Create();
-		hash = sha.ComputeHash(SaltedBytePhrase);
+		hash = sha.ComputeHash(saltedBytePhrase);
 		return Convert.ToBase64String(hash);
     }
 
