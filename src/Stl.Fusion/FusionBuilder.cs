@@ -25,7 +25,7 @@ public readonly struct FusionBuilder
     public IServiceCollection Services { get; }
 
     internal FusionBuilder(
-        IServiceCollection services, 
+        IServiceCollection services,
         Action<FusionBuilder>? configure)
     {
         Services = services;
@@ -136,7 +136,7 @@ public readonly struct FusionBuilder
     {
         if (optionsFactory != null)
             Services.AddSingleton(optionsFactory);
-        else 
+        else
             Services.TryAddSingleton<PublisherOptions>();
 
         Services.TryAddSingleton<IPublisher, Publisher>();
@@ -148,7 +148,7 @@ public readonly struct FusionBuilder
     {
         if (optionsFactory != null)
             Services.AddSingleton(optionsFactory);
-        else 
+        else
             Services.TryAddSingleton<ReplicatorOptions>();
         if (Services.HasService<IReplicator>())
             return this;
@@ -212,7 +212,7 @@ public readonly struct FusionBuilder
     public FusionAuthenticationBuilder AddAuthentication()
         => new(this, null);
 
-    public FusionBuilder AddAuthentication(Action<FusionAuthenticationBuilder> configure) 
+    public FusionBuilder AddAuthentication(Action<FusionAuthenticationBuilder> configure)
         => new FusionAuthenticationBuilder(this, configure).Fusion;
 
     // AddOperationReprocessor
