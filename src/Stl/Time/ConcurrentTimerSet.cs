@@ -4,7 +4,7 @@ namespace Stl.Time;
 
 public record ConcurrentTimerSetOptions : TimerSetOptions
 {
-    public new static ConcurrentTimerSetOptions Default { get; } = new();
+    public static new ConcurrentTimerSetOptions Default { get; } = new();
 
     public int ConcurrencyLevel { get; init; } = HardwareInfo.GetProcessorCountPo2Factor();
 }

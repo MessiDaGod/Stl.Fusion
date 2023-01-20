@@ -5,7 +5,7 @@ namespace Stl.Fusion.Authentication;
 
 public record SessionInfo : SessionAuthInfo, IHasVersion<long>
 {
-    public new static Requirement<SessionInfo> MustBeAuthenticated { get; set; } = Requirement.New(
+    public static new Requirement<SessionInfo> MustBeAuthenticated { get; set; } = Requirement.New(
         new("Session is not authenticated.", m => new SecurityException(m)),
         (SessionInfo? i) => i?.IsAuthenticated() ?? false);
 
