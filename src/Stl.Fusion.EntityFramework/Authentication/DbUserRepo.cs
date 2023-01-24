@@ -48,7 +48,7 @@ public class DbUserRepo<TDbContext, TDbUser, TDbUserId> : DbServiceBase<TDbConte
         : base(services)
     {
         Options = options;
-        DbUserIdHandler = services.GetRequiredService<IDbUserIdHandler<TDbUserId>>();
+        DbUserIdHandler = services.GetRequiredService<IDbUserIdHandler<TDbUserId?>>();
         UserResolver = services.DbEntityResolver<TDbUserId, TDbUser>();
         UserConverter = services.DbEntityConverter<TDbUser, User>();
     }
@@ -65,6 +65,7 @@ public class DbUserRepo<TDbContext, TDbUser, TDbUserId> : DbServiceBase<TDbConte
             Name = user.Name,
             Claims = user.Claims,
         };
+
         dbContext.Add(dbUser);
         await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
@@ -83,6 +84,12 @@ public class DbUserRepo<TDbContext, TDbUser, TDbUserId> : DbServiceBase<TDbConte
 
         UserConverter.UpdateEntity(user, dbUser);
         dbContext.Update(dbUser);
+        await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        var loginAudit = new LoginAudit() {
+            UserId = dbUser.Id!.ToString(),
+            LoginTime = DateTime.UtcNow
+        };
+        dbContext.Add(loginAudit);
         await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         return dbUser;
     }
